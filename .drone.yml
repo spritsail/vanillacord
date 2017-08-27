@@ -1,0 +1,30 @@
+pipeline:
+  build:
+    image: spritsail/docker-build
+    volumes: [ '/var/run/docker.sock:/var/run/docker.sock' ]
+    repo: minecraft-dev
+
+  test:
+    image: spritsail/docker-test
+    volumes: [ '/var/run/docker.sock:/var/run/docker.sock' ]
+    repo: minecraft-dev
+    verbose: true
+    exec_pre: echo eula=true > eula.txt
+    timeout: 60
+    log_pipe: grep -qm 1 '\[Server thread/INFO\]. Done ([0-9]\+\.[0-9]\+s)\!'
+
+  publish:
+    image: spritsail/docker-publish
+    volumes: [ '/var/run/docker.sock:/var/run/docker.sock' ]
+    secrets: [ docker_username, docker_password ]
+    when: { branch: [ master ], event: [ push, tag, deployment ] }
+    from: minecraft-dev
+    repo: spritsail/minecraft
+    tags:
+      - 'latest'
+      - '%label org.label-schema.version'
+
+  notify:
+    image: spritsail/notify
+    when: { status: [ success, failure ] }
+    secrets: [ webhook_url, notify_token ]
