@@ -2,12 +2,12 @@ pipeline:
   build:
     image: spritsail/docker-build
     volumes: [ '/var/run/docker.sock:/var/run/docker.sock' ]
-    repo: minecraft-dev
+    repo: vanillacord-dev
 
   test:
     image: spritsail/docker-test
     volumes: [ '/var/run/docker.sock:/var/run/docker.sock' ]
-    repo: minecraft-dev
+    repo: vanillacord-dev
     verbose: true
     exec_pre: echo eula=true > eula.txt
     timeout: 60
@@ -18,8 +18,8 @@ pipeline:
     volumes: [ '/var/run/docker.sock:/var/run/docker.sock' ]
     secrets: [ docker_username, docker_password ]
     when: { branch: [ master ], event: [ push, tag, deployment ] }
-    from: minecraft-dev
-    repo: spritsail/minecraft
+    from: vanillacord-dev
+    repo: spritsail/vanillacord
     tags:
       - 'latest'
       - '%label org.label-schema.version'
