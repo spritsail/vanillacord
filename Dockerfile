@@ -8,8 +8,6 @@ LABEL maintainer="Spritsail <minecraft@spritsail.io>" \
       org.label-schema.description="Minecraft server" \
       org.label-schema.version=${MC_VER}
 
-WORKDIR /mc
-
 RUN apk --no-cache add openjdk8-jre curl jq && \
     \
     curl -fsSL https://launchermeta.mojang.com/mc/game/version_manifest.json \
@@ -20,4 +18,10 @@ RUN apk --no-cache add openjdk8-jre curl jq && \
     \
     apk --no-cache del jq
 
-CMD [ "java", "-Xmx4G", "-Xms1G", "-jar", "/minecraft_server.jar", "nogui" ]
+WORKDIR /mc
+
+ENV INIT_MEM=1G \
+    MAX_MEM=4G \
+    SERVER_JAR=/minecraft_server.jar
+
+CMD exec java "-Xms$INIT_MEM" "-Xmx$MAX_MEM" -jar "$SERVER_JAR" nogui
