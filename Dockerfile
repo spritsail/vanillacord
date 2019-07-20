@@ -1,4 +1,4 @@
-FROM spritsail/alpine:3.9
+FROM spritsail/alpine:3.10
 
 ARG MC_VER=1.14
 LABEL maintainer="Spritsail <minecraft@spritsail.io>" \
