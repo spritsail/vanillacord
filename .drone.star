@@ -19,22 +19,22 @@ def step(mcver,tags=[]):
         "settings": {
           "repo": "vanillacord-dev-%s" % mcver,
           "build_args": [
-            "mc_ver=%s" % mcver,
+            "MC_VER=%s" % mcver,
           ],
         }
       },
-#      {
-#        "name": "test",
-#        "image": "spritsail/docker-test",
-#        "pull": "always",
-#        "settings": {
-#           "repo": "vanillacord-dev-%s" % mcver,
-#           "verbose": "true",
-#           "exec_pre": "echo eula=true > eula.txt",
-#           "timeout": "60",
-#           "log_pipe": "grep -qm 1 '\[Server thread/INFO\]. Done ([0-9]\+\.[0-9]\+s)\!'",
-#        }
-#      },
+      {
+        "name": "test",
+        "image": "spritsail/docker-test",
+        "pull": "always",
+        "settings": {
+           "repo": "vanillacord-dev-%s" % mcver,
+           "verbose": "true",
+           "exec_pre": "echo eula=true > eula.txt",
+           "timeout": "60",
+           "log_pipe": "grep -qm 1 '\[Server thread/INFO\]. Done ([0-9]\+\.[0-9]\+s)\!'",
+        }
+      },
 #      {
 #        "name": "publish",
 #        "image": "spritsail/docker-publish",
