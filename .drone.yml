@@ -1,0 +1,186 @@
+---
+kind: pipeline
+name: build-1.12.2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: build
+  pull: always
+  image: spritsail/docker-build
+  settings:
+    build_args:
+    - mc_ver=1.12.2
+    repo: vanillacord-dev-1.12.2
+
+- name: test
+  pull: always
+  image: spritsail/docker-test
+  settings:
+    exec_pre: echo eula=true > eula.txt
+    log_pipe: grep -qm 1 '\[Server thread/INFO\]. Done ([0-9]\+\.[0-9]\+s)\!'
+    repo: vanillacord-dev-1.12.2
+    timeout: 60
+    verbose: true
+
+- name: publish
+  pull: always
+  image: spritsail/docker-publish
+  settings:
+    from: vanillacord-dev-1.12.2
+    repo: spritsail/vanillacord
+    tags:
+    - "%label org.label-schema.version"
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: docker_password
+    DOCKER_USERNAME:
+      from_secret: docker_username
+  when:
+    branch:
+    - master
+    event:
+    - push
+
+---
+kind: pipeline
+name: build-1.13.2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: build
+  pull: always
+  image: spritsail/docker-build
+  settings:
+    build_args:
+    - mc_ver=1.13.2
+    repo: vanillacord-dev-1.13.2
+
+- name: test
+  pull: always
+  image: spritsail/docker-test
+  settings:
+    exec_pre: echo eula=true > eula.txt
+    log_pipe: grep -qm 1 '\[Server thread/INFO\]. Done ([0-9]\+\.[0-9]\+s)\!'
+    repo: vanillacord-dev-1.13.2
+    timeout: 60
+    verbose: true
+
+- name: publish
+  pull: always
+  image: spritsail/docker-publish
+  settings:
+    from: vanillacord-dev-1.13.2
+    repo: spritsail/vanillacord
+    tags:
+    - "%label org.label-schema.version"
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: docker_password
+    DOCKER_USERNAME:
+      from_secret: docker_username
+  when:
+    branch:
+    - master
+    event:
+    - push
+
+---
+kind: pipeline
+name: build-1.14.4
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: build
+  pull: always
+  image: spritsail/docker-build
+  settings:
+    build_args:
+    - mc_ver=1.14.4
+    repo: vanillacord-dev-1.14.4
+
+- name: test
+  pull: always
+  image: spritsail/docker-test
+  settings:
+    exec_pre: echo eula=true > eula.txt
+    log_pipe: grep -qm 1 '\[Server thread/INFO\]. Done ([0-9]\+\.[0-9]\+s)\!'
+    repo: vanillacord-dev-1.14.4
+    timeout: 60
+    verbose: true
+
+- name: publish
+  pull: always
+  image: spritsail/docker-publish
+  settings:
+    from: vanillacord-dev-1.14.4
+    repo: spritsail/vanillacord
+    tags:
+    - "%label org.label-schema.version"
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: docker_password
+    DOCKER_USERNAME:
+      from_secret: docker_username
+  when:
+    branch:
+    - master
+    event:
+    - push
+
+---
+kind: pipeline
+name: build-1.15.1
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: build
+  pull: always
+  image: spritsail/docker-build
+  settings:
+    build_args:
+    - mc_ver=1.15.1
+    repo: vanillacord-dev-1.15.1
+
+- name: test
+  pull: always
+  image: spritsail/docker-test
+  settings:
+    exec_pre: echo eula=true > eula.txt
+    log_pipe: grep -qm 1 '\[Server thread/INFO\]. Done ([0-9]\+\.[0-9]\+s)\!'
+    repo: vanillacord-dev-1.15.1
+    timeout: 60
+    verbose: true
+
+- name: publish
+  pull: always
+  image: spritsail/docker-publish
+  settings:
+    from: vanillacord-dev-1.15.1
+    repo: spritsail/vanillacord
+    tags:
+    - latest
+    - "%label org.label-schema.version"
+  environment:
+    DOCKER_PASSWORD:
+      from_secret: docker_password
+    DOCKER_USERNAME:
+      from_secret: docker_username
+  when:
+    branch:
+    - master
+    event:
+    - push
+
+...
