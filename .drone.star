@@ -32,7 +32,7 @@ def step(mcver,tags=[]):
            "verbose": "true",
            "exec_pre": "echo eula=true > eula.txt",
            "timeout": "60",
-#           "log_pipe": "grep -qm 1 '\[Server thread/INFO\]. Done ([0-9]\+\.[0-9]\+s)\!'",
+           "log_pipe": "grep -qm 1 \\'\\\\[Server thread/INFO\\\\]. Done ([0-9]\\\\+\\\\.[0-9]\\\\+s)\\\\!\\\\'",
         }
       },
 #      {
