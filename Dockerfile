@@ -1,6 +1,6 @@
-FROM spritsail/alpine:3.11
+FROM spritsail/alpine:edge
 
-ARG MC_VER=1.15.2
+ARG MC_VER=1.18-pre1
 LABEL maintainer="Spritsail <minecraft@spritsail.io>" \
       org.label-schema.vendor="Spritsail" \
       org.label-schema.name="Minecraft server" \
@@ -8,20 +8,11 @@ LABEL maintainer="Spritsail <minecraft@spritsail.io>" \
       org.label-schema.description="Minecraft server" \
       org.label-schema.version=${MC_VER}
 
-RUN apk --no-cache add openjdk8-jre nss curl jq && \
+RUN apk --no-cache add openjdk16-jre nss curl jq && \
     \
     cd /tmp && \
-    curl -fsSL -o vanillacord.jar \
-        https://src.me1312.net/jenkins/job/VanillaCord/job/1.12/lastSuccessfulBuild/artifact/artifacts/VanillaCord.jar && \
-    mkdir in && \
-    \
-    curl -fsSL https://launchermeta.mojang.com/mc/game/version_manifest.json \
-        | jq -r ".versions[] | select(.id == \"$MC_VER\") | .url" \
-        | xargs curl -fsSL \
-        | jq -r ".downloads.server.url" \
-        | xargs curl -fsSL -o in/$MC_VER.jar && \
-    \
-    java -jar vanillacord.jar $MC_VER && \
+    curl -fsSLO https://src.me1312.net/jenkins/job/VanillaCord/job/master/lastSuccessfulBuild/artifact/artifacts/VanillaCord.jar && \
+    java -jar VanillaCord.jar $MC_VER && \
     mv out/$MC_VER-bungee.jar /vanillacord_server.jar && \
     \
     rm -rf /tmp/* && \
