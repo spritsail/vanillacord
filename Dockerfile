@@ -1,6 +1,6 @@
 FROM spritsail/alpine:edge
 
-ARG MC_VER=1.18-pre1
+ARG MC_VER=1.18-pre5
 LABEL maintainer="Spritsail <minecraft@spritsail.io>" \
       org.label-schema.vendor="Spritsail" \
       org.label-schema.name="Minecraft server" \
@@ -8,7 +8,7 @@ LABEL maintainer="Spritsail <minecraft@spritsail.io>" \
       org.label-schema.description="Minecraft server" \
       org.label-schema.version=${MC_VER}
 
-RUN apk --no-cache add openjdk16-jre nss curl jq && \
+RUN apk --no-cache add openjdk17-jre nss curl jq && \
     \
     cd /tmp && \
     curl -fsSLO https://src.me1312.net/jenkins/job/VanillaCord/job/master/lastSuccessfulBuild/artifact/artifacts/VanillaCord.jar && \
