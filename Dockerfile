@@ -11,7 +11,7 @@ LABEL maintainer="Spritsail <minecraft@spritsail.io>" \
 RUN apk --no-cache add openjdk17-jre nss curl jq && \
     \
     cd /tmp && \
-    curl -fsSLO https://src.me1312.net/jenkins/job/VanillaCord/job/master/lastSuccessfulBuild/artifact/artifacts/VanillaCord.jar && \
+    curl -fsSLO https://src.me1312.net/jenkins/job/VanillaCord/lastSuccessfulBuild/artifact/artifacts/VanillaCord.jar && \
     java -jar VanillaCord.jar $MC_VER && \
     mv out/$MC_VER-bungee.jar /vanillacord_server.jar && \
     \
@@ -24,4 +24,9 @@ ENV INIT_MEM=1G \
     MAX_MEM=4G \
     SERVER_JAR=/vanillacord_server.jar
 
-CMD exec java "-Xms$INIT_MEM" "-Xmx$MAX_MEM" -jar "$SERVER_JAR" nogui
+CMD exec java \
+    -Dlog4j2.formatMsgNoLookups=true \
+    "-Xms$INIT_MEM" \
+    "-Xmx$MAX_MEM" \
+    -jar "$SERVER_JAR" \
+    nogui
